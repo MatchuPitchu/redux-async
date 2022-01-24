@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// for VERSION 2: with createAsyncThunk hook
+// for VERSION 2: with createAsyncThunk
 import { fetchCartDataV2 } from './cart-actions';
 
 const cartSlice = createSlice({
@@ -49,7 +49,7 @@ const cartSlice = createSlice({
 export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;
 
-// for VERSION 2: with createAsyncThunk hook
+// for VERSION 2: with createAsyncThunk
 
 const cartSliceV2 = createSlice({
   name: 'cart',

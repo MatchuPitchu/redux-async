@@ -87,7 +87,7 @@ export const fetchCartData = () => {
   };
 };
 
-// VERSION 2: with createAsyncThunk hook
+// VERSION 2: with createAsyncThunk
 export const sendCartDataV2 = createAsyncThunk('cart/sendData', async (cart) => {
   const options = {
     method: 'POST',
