@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from './store/hooks';
 // import { uiActions } from './store/ui-slice';
 import { sendCartData, fetchCartData } from './store/cart-actions';
 import Notification from './components/UI/Notification';
@@ -8,11 +8,11 @@ import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const showCart = useSelector((state) => state.ui.isCartVisible);
-  const cart = useSelector((state) => state.cart);
-  const notification = useSelector((state) => state.ui.notification);
+  const showCart = useAppSelector((state) => state.ui.isCartVisible);
+  const cart = useAppSelector((state) => state.cart);
+  const notification = useAppSelector((state) => state.ui.notification);
 
   // 2) Second approach do perform async tasks with Redux:
   // first dispatch actions to update state in redux store,

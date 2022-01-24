@@ -1,21 +1,42 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // for VERSION 2: with createAsyncThunk
 import { fetchCartDataV2 } from './cart-actions';
+
+interface Item {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+interface ReplaceCartAction {
+  totalQuantity: number;
+  items: Item[];
+}
+
+interface AddItemAction {
+  id: string;
+  title: string;
+  price: number;
+}
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    items: [],
+    items: [{ id: '', title: '', price: 0, quantity: 0 }],
     totalQuantity: 0,
     // helper variable to avoid that - when opening app - fetched cart data is immediately sended back to server
     changedLocally: false,
   },
   reducers: {
-    replaceCart: (state, { payload: { totalQuantity, items } }) => {
+    replaceCart: (
+      state,
+      { payload: { totalQuantity, items } }: PayloadAction<ReplaceCartAction>
+    ) => {
       state.items = items;
       state.totalQuantity = totalQuantity;
     },
-    addItemToCart: (state, { payload: { id, title, price } }) => {
+    addItemToCart: (state, { payload: { id, title, price } }: PayloadAction<AddItemAction>) => {
       state.totalQuantity++;
       state.changedLocally = true;
 
@@ -32,11 +53,13 @@ const cartSlice = createSlice({
         existingItem.quantity++;
       }
     },
-    removeItemFromCart: (state, { payload: id }) => {
+    removeItemFromCart: (state, { payload: id }: PayloadAction<string>) => {
       state.totalQuantity--;
       state.changedLocally = true;
 
       const existingItem = state.items.find((item) => item.id === id);
+      if (!existingItem) return;
+
       if (existingItem.quantity === 1) {
         state.items = state.items.filter((item) => item.id !== id);
       } else {

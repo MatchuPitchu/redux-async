@@ -1,11 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import { cartActions } from '../../store/cart-slice';
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
 
 const ProductItem = ({ id, title, price, description }) => {
-  // const cart = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+  // const cart = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
 
   const addToCartHandler = () => {
     // 1) First approach (NOT recommended) to perform async tasks with Redux:
