@@ -1,14 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { uiActions } from './store/ui-slice';
-import { sendCartData } from './store/cart-slice';
+// import { uiActions } from './store/ui-slice';
+import { sendCartData, fetchCartData } from './store/cart-actions';
 import Notification from './components/UI/Notification';
 import Layout from './components/Layout/Layout';
 import Cart from './components/Cart/Cart';
 import Products from './components/Shop/Products';
-
-// avoid calling sendData fn in useEffect for first rendering
-let isInital = true;
 
 const App = () => {
   const dispatch = useDispatch();
@@ -75,12 +72,14 @@ const App = () => {
   // Redux Toolkit accepts as arg for dispatch() also action creators that returns another fn;
   // Toolkit notices that and will execute that returned fn for you
   useEffect(() => {
-    if (isInital) {
-      isInital = false;
-      return;
-    }
-    dispatch(sendCartData(cart));
+    // only if data was changed locally, send HTTP request
+    if (cart.changedLocally) dispatch(sendCartData(cart));
   }, [cart, dispatch]);
+
+  // fetch cart data from backend when app is mounted
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
   return (
     <>
