@@ -67,10 +67,10 @@ const cartSliceV2 = createSlice({
       /* look at code V1 */
     },
   },
-  extraReducers: {
-    'cart/fetchData/fulfilled': (state, { payload: { totalQuantity, items } }) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchCartDataV2.fulfilled, (state, { payload: { totalQuantity, items } }) => {
       state.items = items;
       state.totalQuantity = totalQuantity;
-    },
+    });
   },
 });

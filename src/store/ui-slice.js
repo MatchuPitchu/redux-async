@@ -32,34 +32,35 @@ const uiSliceV2 = createSlice({
     },
     // remove showNotifcation action of original code V1
   },
-  extraReducers: {
-    'cart/fetchData/rejected': (state, action) => {
-      state.notification = {
-        status: 'error',
-        title: 'Error',
-        message: action.error.message || 'Fetching data failed',
-      };
-    },
-    'cart/sendData/pending': (state) => {
-      state.notification = {
-        status: 'pending',
-        title: 'Sending...',
-        message: 'Sending cart data',
-      };
-    },
-    'cart/sendData/fulfilled': (state) => {
-      state.notification = {
-        status: 'success',
-        title: 'Success',
-        message: 'Sent cart data successfully',
-      };
-    },
-    'cart/sendData/rejected': (state) => {
-      state.notification = {
-        status: 'error',
-        title: 'Error',
-        message: 'Sending data failed',
-      };
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCartDataV2.rejected, (state, action) => {
+        state.notification = {
+          status: 'error',
+          title: 'Error',
+          message: action.error.message || 'Fetching data failed',
+        };
+      })
+      .addCase(sendCartDataV2.pending, (state) => {
+        state.notification = {
+          status: 'pending',
+          title: 'Sending...',
+          message: 'Sending cart data',
+        };
+      })
+      .addCase(sendCartDataV2.fulfilled, (state) => {
+        state.notification = {
+          status: 'success',
+          title: 'Success',
+          message: 'Sent cart data successfully',
+        };
+      })
+      .addCase(sendCartDataV2.rejected, (state) => {
+        state.notification = {
+          status: 'error',
+          title: 'Error',
+          message: 'Sending data failed',
+        };
+      });
   },
 });
