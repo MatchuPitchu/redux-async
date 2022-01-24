@@ -1,6 +1,9 @@
 import { uiActions } from './ui-slice';
 import { cartActions } from './cart-slice';
 
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+// VERSION 1: with Action Creator Thunk
 // create own action creator (default action creators are like cartActions.addItemToCart({...}))
 export const sendCartData = (cart) => {
   // Redux Toolkit gives automatically "dispatch" parameter, so that you can dispatch actions in returned fn
@@ -83,3 +86,29 @@ export const fetchCartData = () => {
     }
   };
 };
+
+// VERSION 2: with createAsyncThunk hook
+export const sendCartDataV2 = createAsyncThunk('cart/sendData', async (cart) => {
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({ items: cart.items, totalQuantity: cart.totalQuantity }),
+  };
+  const res = await fetch(
+    'https://react-http-ba0a9-default-rtdb.europe-west1.firebasedatabase.app/cart.json',
+    options
+  );
+  if (!res.ok) throw new Error('Sending data failed.');
+});
+
+export const fetchCartDataV2 = createAsyncThunk('cart/fetchData', async () => {
+  const res = await fetch(
+    'https://react-http-ba0a9-default-rtdb.europe-west1.firebasedatabase.app/cart.json'
+  );
+  if (!res.ok) throw new Error('Error while fetching data');
+
+  const data = await res.json();
+  return {
+    items: data.items || [], // Firebase does NOT store empty data, so items is undefined when app is opened with empty cart
+    totalQuantity: data.totalQuantity,
+  };
+});

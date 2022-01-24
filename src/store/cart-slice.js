@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+// for VERSION 2: with createAsyncThunk hook
+import { fetchCartDataV2 } from './cart-actions';
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -46,3 +48,29 @@ const cartSlice = createSlice({
 
 export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;
+
+// for VERSION 2: with createAsyncThunk hook
+
+const cartSliceV2 = createSlice({
+  name: 'cart',
+  initialState: {
+    items: [],
+    totalQuantity: 0,
+    changedLocally: false,
+  },
+  reducers: {
+    // remove replaceCart action of code V1
+    addItemToCart: (state, action) => {
+      /* look at code V1 */
+    },
+    removeItemFromCart: (state, action) => {
+      /* look at code V1 */
+    },
+  },
+  extraReducers: {
+    'cart/fetchData/fulfilled': (state, { payload: { totalQuantity, items } }) => {
+      state.items = items;
+      state.totalQuantity = totalQuantity;
+    },
+  },
+});
