@@ -1,15 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-// for VERSION 2: with createAsyncThunk
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// VARIANT 2: with createAsyncThunk
 import { fetchCartDataV2, sendCartDataV2 } from './cart-actions';
+
+interface Notification {
+  status: string;
+  title: string;
+  message: string;
+}
 
 const uiSlice = createSlice({
   name: 'ui',
-  initialState: { isCartVisible: false, notification: null },
+  initialState: { isCartVisible: false, notification: {} },
   reducers: {
     toggle: (state) => {
       state.isCartVisible = !state.isCartVisible;
     },
-    showNotification: (state, { payload: { status, title, message } }) => {
+    showNotification: (
+      state,
+      { payload: { status, title, message } }: PayloadAction<Notification>
+    ) => {
       state.notification = {
         status,
         title,
@@ -22,10 +31,10 @@ const uiSlice = createSlice({
 export const uiActions = uiSlice.actions;
 export default uiSlice.reducer;
 
-// for VERSION 2: with createAsyncThunk
+// VARIANT 2: with createAsyncThunk
 const uiSliceV2 = createSlice({
   name: 'ui',
-  initialState: { isCartVisible: false, notification: null },
+  initialState: { isCartVisible: false, notification: {} },
   reducers: {
     toggle: (state) => {
       /* look at code V1 */

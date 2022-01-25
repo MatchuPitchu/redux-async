@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// for VERSION 2: with createAsyncThunk
+// VARIANT 2: with createAsyncThunk
 import { fetchCartDataV2 } from './cart-actions';
 
 interface Item {
@@ -72,8 +72,7 @@ const cartSlice = createSlice({
 export const cartActions = cartSlice.actions;
 export default cartSlice.reducer;
 
-// for VERSION 2: with createAsyncThunk
-
+// VARIANT 2: with createAsyncThunk
 const cartSliceV2 = createSlice({
   name: 'cart',
   initialState: {
